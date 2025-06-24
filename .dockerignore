@@ -1,0 +1,6 @@
+.venv
+docs
+.database.db
+.gitignore
+.python-version
+README.md
