@@ -1,7 +1,10 @@
+from fastapi import HTTPException
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core import messages
 from src.db.models import UserModel
+from src.schemas import UserCreate, UserResponse
 
 class UserRepository:
     def __init__(self, db: AsyncSession) -> None:
@@ -17,6 +20,17 @@ class UserRepository:
         Returns:
             UserModel: The added user model.
         """
+
+        stmt = select(UserModel).where(UserModel.email == model.email)
+        result = await self.db.execute(stmt)
+        existing_user = result.unique().scalars().first()
+
+        if existing_user:
+            raise HTTPException(
+                status_code=409,
+                detail=messages.USER_EMAIL_ALREADY_EXISTS
+            )
+
         self.db.add(model)
         await self.db.commit()
         await self.db.refresh(model)
@@ -82,3 +96,21 @@ class UserRepository:
         result = await self.db.execute(query)
         await self.db.commit()
         return result.rowcount > 0
+    
+
+    def map_request_to_model(self, request: UserCreate) -> UserModel:
+        """
+        Maps a UserCreate request to a UserModel.
+
+        Args:
+            request (UserCreate): The user creation request.
+
+        Returns:
+            UserModel: The mapped user model.
+        """
+        return UserModel(
+            **request.to_dict()
+        )
+    
+    def map_model_to_response(self, model: UserModel) -> UserResponse:
+        return UserResponse.model_validate(model, from_attributes=True)

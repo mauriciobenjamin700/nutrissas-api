@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncAttrs, AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass
+from sqlalchemy.orm import DeclarativeBase
 
 class BaseModel(AsyncAttrs, DeclarativeBase):
     __abstract__ = True
@@ -42,7 +42,7 @@ class DatabaseHandler:
         drop_tables: Drops all tables defined in the SQLAlchemy models.
     """
     def __init__(self, database_url: str):
-        self.engine = create_async_engine(database_url, echo=True)
+        self.engine = create_async_engine(database_url, echo=False)
         self.async_session = async_sessionmaker(
             self.engine,
             expire_on_commit=False,
@@ -95,16 +95,3 @@ class DatabaseHandler:
                 UserModel
             )
             await conn.run_sync(BaseModel.metadata.create_all)
-
-    async def drop_tables(self) -> None:
-        """
-        Drops all tables defined in the SQLAlchemy models.
-
-        Args:
-            None
-
-        Returns:
-            None
-        """
-        async with self.engine.begin() as conn:
-            await conn.run_sync(Base.metadata.drop_all)

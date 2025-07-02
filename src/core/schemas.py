@@ -12,6 +12,7 @@ class BaseSchema(BaseModel):
     model_config = ConfigDict(
         from_attributes=True,
         use_enum_values=True,
+        extra="ignore"
     )
     
     def to_dict(self, exclude: list[str] = [], include: dict = {}) -> dict:

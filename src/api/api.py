@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.api.routes import user_router
 
 app = FastAPI(title="FastAPI Example",
     description="A simple FastAPI application example",
@@ -22,6 +23,8 @@ app.add_middleware(
     allow_methods=["POST", "PUT", "GET", "DELETE", "PATCH"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
+
+app.include_router(user_router)
 
 @app.get("/")
 async def root():

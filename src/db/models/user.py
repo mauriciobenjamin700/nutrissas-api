@@ -3,7 +3,7 @@ from sqlalchemy import String, Text, TIMESTAMP, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 
-from src.core import BaseModel, get_current_time, id_generator
+from src.core import BaseModel, id_generator
 
 
 class UserModel(BaseModel):
@@ -28,14 +28,14 @@ class UserModel(BaseModel):
     __tablename__ = 'users'
 
     id: Mapped[str] = mapped_column(String,primary_key=True, default=id_generator)
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    gender: Mapped[str] = mapped_column(String(1), nullable=False)
-    birth_date: Mapped[datetime] = mapped_column(TIMESTAMP, nullable=False)
-    state: Mapped[str] = mapped_column(String(2), nullable=False)
-    city: Mapped[str] = mapped_column(String(50), nullable=False)
-    cep: Mapped[str] = mapped_column(String(10), nullable=False)
+    name: Mapped[str] = mapped_column(String(255), nullable=True)
+    gender: Mapped[str] = mapped_column(String(1), nullable=True)
+    birth_date: Mapped[datetime] = mapped_column(TIMESTAMP, nullable=True)
+    state: Mapped[str] = mapped_column(String(2), nullable=True)
+    city: Mapped[str] = mapped_column(String(50), nullable=True)
+    cep: Mapped[str] = mapped_column(String(10), nullable=True)
     complement: Mapped[str] = mapped_column(Text, nullable=True)
-    email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         TIMESTAMP, nullable=False, server_default=func.now()

@@ -1,0 +1,1 @@
+SUCCESS_DELETE_USER = "Usuário deletado com sucesso."

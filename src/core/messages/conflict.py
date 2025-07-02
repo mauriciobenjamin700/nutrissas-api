@@ -1,0 +1,1 @@
+USER_EMAIL_ALREADY_EXISTS = "E-mail já cadastrado."

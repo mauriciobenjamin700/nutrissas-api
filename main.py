@@ -2,7 +2,7 @@ import asyncio
 import uvicorn
 
 from src.api import app
-from src.core import DatabaseHandler
+from src.db import db
 
 def create_tables():
     """
@@ -15,7 +15,6 @@ def create_tables():
         None
     """
     async def run_create_tables():
-        db = DatabaseHandler("sqlite+aiosqlite:///.database.db")
         await db.create_tables()
 
     asyncio.run(run_create_tables())
