@@ -1,0 +1,8 @@
+services:
+  nutrissas-api:
+    container_name: nutrissas-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"

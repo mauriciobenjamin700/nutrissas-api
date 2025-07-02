@@ -1,4 +1,4 @@
-from src.core import DatabaseHandler
+from src.core import DatabaseHandler, settings
 
 
-db = DatabaseHandler("sqlite+aiosqlite:///.database.db")
+db = DatabaseHandler(settings.DB_URL)

@@ -17,6 +17,7 @@ class Settings(BaseSettings):
 
     ALGORITHM: str
     SECRET_KEY: str
+    DB_URL: str
 
 
 settings = Settings()
